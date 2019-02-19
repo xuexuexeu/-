@@ -67,7 +67,7 @@ static NSString * const kWriteCharacteristicUUID = @"FFE3";
     //开始扫描前  先断开以前的扫描链接
     [self.centralManager stopScan];
     NSLog(@"扫描设备");
-//    [self showMessage:@"扫描设备"];
+    [self showMessage:@"扫描设备"];
     if (self.peripheralState ==  CBManagerStatePoweredOn)
     {
         // 扫描所有设备,传入nil,代表所有设备.
@@ -76,9 +76,31 @@ static NSString * const kWriteCharacteristicUUID = @"FFE3";
 }
 
 - (IBAction)lianjieBtnClick:(id)sender {
+    if (self.cbPeripheral != nil)
+    {
+        NSLog(@"连接设备");
+        [self showMessage:@"连接设备"];
+        [self.centralManager connectPeripheral:self.cbPeripheral options:nil];
+    }
+    else
+    {
+        [self showMessage:@"无设备可连接"];
+    }
 }
 
 - (IBAction)qingkongBtnClick:(id)sender {
+    NSLog(@"清空设备");
+    [self.peripherals removeAllObjects];
+    self.peripheralContentTextView.text = @"";
+    [self showMessage:@"清空设备"];
+    
+    if (self.cbPeripheral != nil)
+    {
+        // 取消连接
+        NSLog(@"取消连接");
+        [self showMessage:@"取消连接"];
+        [self.centralManager cancelPeripheralConnection:self.cbPeripheral];
+    }
 }
 
 
@@ -140,7 +162,7 @@ static NSString * const kWriteCharacteristicUUID = @"FFE3";
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral
      advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI
 {
-//    [self showMessage:[NSString stringWithFormat:@"发现设备,设备名:%@",peripheral.name]];
+    [self showMessage:[NSString stringWithFormat:@"发现设备,设备名:%@",peripheral.name]];
     
     if (![self.peripherals containsObject:peripheral])
     {
@@ -149,11 +171,13 @@ static NSString * const kWriteCharacteristicUUID = @"FFE3";
         
         if ([peripheral.name isEqualToString:kBlePeripheralName])
         {
-//            [self showMessage:[NSString stringWithFormat:@"设备名:%@",peripheral.name]];
+            [self showMessage:[NSString stringWithFormat:@"设备名:%@",peripheral.name]];
             self.cbPeripheral = peripheral;
             
-//            [self showMessage:@"开始连接"];
+            [self showMessage:@"开始连接"];
             [self.centralManager connectPeripheral:peripheral options:nil];
+        }else if (peripheral.name != NULL){
+            self.cbPeripheral = peripheral;
         }
     }
 }
@@ -167,7 +191,7 @@ static NSString * const kWriteCharacteristicUUID = @"FFE3";
  */
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
-//    [self showMessage:@"连接失败"];
+    [self showMessage:@"连接失败"];
     if ([peripheral.name isEqualToString:kBlePeripheralName])
     {
         [self.centralManager connectPeripheral:peripheral options:nil];
@@ -183,7 +207,7 @@ static NSString * const kWriteCharacteristicUUID = @"FFE3";
  */
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
-//    [self showMessage:@"断开连接"];
+    [self showMessage:@"断开连接"];
     if ([peripheral.name isEqualToString:kBlePeripheralName])
     {
         [self.centralManager connectPeripheral:peripheral options:nil];
@@ -199,7 +223,7 @@ static NSString * const kWriteCharacteristicUUID = @"FFE3";
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
     NSLog(@"连接设备:%@成功",peripheral.name);
-//    [self showMessage:[NSString stringWithFormat:@"连接设备:%@成功",peripheral.name]];
+    [self showMessage:[NSString stringWithFormat:@"连接设备:%@成功",peripheral.name]];
     
     // 设置设备的代理
     peripheral.delegate = self;
@@ -245,7 +269,7 @@ static NSString * const kWriteCharacteristicUUID = @"FFE3";
         if ([characteristic.UUID.UUIDString isEqualToString:kWriteCharacteristicUUID])
         {
             // 写入数据
-//            [self showMessage:@"写入特征值"];
+            [self showMessage:@"写入特征值"];
             for (Byte i = 0x0; i < 0x73; i++)
             {
                 // 让钢琴的每颗灯都亮一次
@@ -276,7 +300,24 @@ static NSString * const kWriteCharacteristicUUID = @"FFE3";
     if ([characteristic.UUID.UUIDString isEqualToString:kNotifyCharacteristicUUID])
     {
         NSData *data = characteristic.value;
-        NSLog(@"%@",data);
+        NSLog(@" 根据特征读到数据  %@",data);
     }
+}
+
+
+/**
+ 根据特征写入数据
+ 写入成功后的回调
+ @param peripheral 读取到数据对应的设备
+ @param characteristic 特征
+ @param error 错误信息
+ */
+-(void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error{
+    
+}
+- (void)showMessage:(NSString *)message
+{
+    self.peripheralContentTextView.text = [self.peripheralContentTextView.text stringByAppendingFormat:@"%@\n",message];
+    [self.peripheralContentTextView scrollRectToVisible:CGRectMake(0, self.peripheralContentTextView.contentSize.height -15, self.peripheralContentTextView.contentSize.width, 10) animated:YES];
 }
 @end

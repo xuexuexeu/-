@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OaP-SO-Axe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -50,7 +50,7 @@
                                     <action selector="qingkongBtnClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8wQ-qd-Ogx"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="ddd" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fgF-aN-6Nv">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fgF-aN-6Nv">
                                 <rect key="frame" x="20" y="136" width="335" height="300"/>
                                 <color key="backgroundColor" red="0.47305293999999998" green="1" blue="0.37382588630000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -94,38 +94,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-922" y="-10"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="TEP-Cl-fE6">
-            <objects>
-                <navigationController id="OaP-SO-Axe" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rzj-OW-cZG">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="OAk-gc-99X" kind="relationship" relationship="rootViewController" id="l58-aV-Llk"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="RMI-AJ-SfX" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-62" y="-145"/>
-        </scene>
-        <!--播放视频-->
-        <scene sceneID="KdL-gX-WlZ">
-            <objects>
-                <viewController id="OAk-gc-99X" customClass="XKVideoTestViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="88G-Dc-MOe">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.47305293999999998" green="1" blue="0.37382588630000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="IV8-nN-5AM"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="播放视频" id="NDh-Wo-mA7"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eMa-t1-IGG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="628" y="-137"/>
         </scene>
     </scenes>
 </document>
